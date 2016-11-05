@@ -5,7 +5,13 @@ using namespace std;
 #include "SDRDevice.hpp"
 
 int main () {
-    cout << "Starting...\n";
+    cout << "Starting..." << endl;
 
-    SDRDevice::printSystemInformation();
+    SDRDevice::listAvailableSDRDevices();
+
+    SDRDevice *sdr = new SDRDevice();
+
+    sdr->printInfo();
+
+    delete sdr;
 }
