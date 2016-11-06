@@ -6,16 +6,8 @@
 using namespace std;
 using namespace SoapySDR;
 
+#include "stdUtils.hpp"
 #include "SDRDevice.hpp"
-
-ostream& operator<< (ostream& os, const Kwargs& kwargs) {
-    os << "[";
-    for (Kwargs::const_iterator iterator = kwargs.begin(); iterator != kwargs.end(); iterator++) {
-	os << iterator->first << "=" << iterator->second << ",";
-    }
-    os << "]";
-    return os;
-}
 
 SDRDevice::SDRDevice() {
     cout << "Initializing SDR Device..." << endl;

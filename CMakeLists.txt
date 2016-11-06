@@ -26,6 +26,8 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
 add_executable(RFLogger
+	stdUtils.hpp
+	stdUtils.cpp
         SDRDevice.hpp
         SDRDevice.cpp
 	RFLogger.cpp
