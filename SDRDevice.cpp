@@ -40,9 +40,23 @@ void SDRDevice::printInfo() {
 	double fullScale;
 	string nativeStreamFormat = device->getNativeStreamFormat(SOAPY_SDR_RX, channelNumber, fullScale);
 	cout << "Channel " << channelNumber << " native stream formats: " << nativeStreamFormat << ", maximum possible value: " << fullScale << endl;
-
-	// stream args info
 	cout << "Channel " << channelNumber << " stream args: " << device->getStreamArgsInfo(SOAPY_SDR_RX, channelNumber) << endl;
+
+	// frequency info
+	cout << "Channel " << channelNumber << " tunable elements: " << device->listFrequencies(SOAPY_SDR_RX, channelNumber) << endl;
+	cout << "Channel " << channelNumber << " tune args: " << device->getFrequencyArgsInfo(SOAPY_SDR_RX, channelNumber) << endl;
+	cout << "Channel " << channelNumber << " frequency ranges: " << device->getFrequencyRange(SOAPY_SDR_RX, channelNumber) << endl;
+
+	// gains info
+	cout << "Channel " << channelNumber << " automatic gain support: " << (device->hasGainMode(SOAPY_SDR_RX, channelNumber) ? "yes" : "no") << endl;
+	vector<string> gains = device->listGains(SOAPY_SDR_RX, channelNumber);
+	cout << "Channel " << channelNumber << " available gains: " << gains << endl;
+	for (vector<string>::iterator gainIterator = gains.begin(); gainIterator != gains.end(); gainIterator++) {
+	    cout << "Channel " << channelNumber << " gain range for '" << *gainIterator << "': " << device->getGainRange(SOAPY_SDR_RX, channelNumber, *gainIterator) << endl;
+	}
+
+	// sample rates
+	cout << "Channel " << channelNumber << " sample rates: " << device->listSampleRates(SOAPY_SDR_RX, channelNumber) << endl;
     }
 }
 
