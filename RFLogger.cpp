@@ -59,6 +59,8 @@ int main (int argc, char **argv) {
 	sdr->printStreamInfo();
     }
 
+    sdr->readStream();
+
     sdr->closeStream();
 
     delete sdr;

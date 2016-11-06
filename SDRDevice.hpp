@@ -1,3 +1,5 @@
+#include <complex>
+
 #include <SoapySDR/Device.hpp>
 #include <SoapySDR/Formats.hpp>
 
@@ -10,26 +12,25 @@ private:
     Device* device;
 
     Stream* stream;
+    size_t streamMTU;
+    complex<float>* buffer;
+    void* buffers[1];
 
 public:
     
     static void listAvailableSDRDevices();
 
     SDRDevice();
-
     ~SDRDevice();
 
     void setBandwidth(double bandwidth);
-
     void setSampleRate(double sampleRate);
-
     void setFrequency(double frequency);
 
     void setupStream();
-
-    void printStreamInfo();
-
     void closeStream();
+    void printStreamInfo();
+    void readStream();
 
     void printInfo();
 

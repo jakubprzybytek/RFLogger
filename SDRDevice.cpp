@@ -44,15 +44,36 @@ void SDRDevice::setFrequency(double frequency) {
 void SDRDevice::setupStream() {
     cout << "Setting up a stream" << endl;
     stream = device->setupStream(SOAPY_SDR_RX, "CF32");
-}
+    streamMTU = device->getStreamMTU(stream);
+    device->activateStream(stream);
 
-void SDRDevice::printStreamInfo() {
-    cout << "Stream MTU: " << device->getStreamMTU(stream) << endl;
+    buffer = new complex<float>[streamMTU];
+    buffers[0] = buffer;
 }
 
 void SDRDevice::closeStream() {
     cout << "Closing stream" << endl;
+    device->deactivateStream(stream);
     device->closeStream(stream);
+
+    delete buffer;
+}
+
+void SDRDevice::printStreamInfo() {
+    cout << "Stream MTU: " << streamMTU << endl;
+    cout << "Stream buffer size: " << streamMTU * sizeof(complex<float>) << endl;
+}
+
+void SDRDevice::readStream() {
+    int flags = 0;
+    long long timeNs = 0;
+    int read = device->readStream(stream, buffers, streamMTU, flags, timeNs);
+
+    cout << "Read '" << read << "' in '" << timeNs << "' ns" << endl;
+
+    for (unsigned int i = 0; i < 1024; i++) {
+	cout << buffer[i] << endl;
+    }
 }
 
 void SDRDevice::printInfo() {
@@ -85,8 +106,8 @@ void SDRDevice::printInfo() {
 	cout << "Channel " << channelNumber << " automatic gain support: " << (device->hasGainMode(SOAPY_SDR_RX, channelNumber) ? "yes" : "no") << endl;
 	vector<string> gains = device->listGains(SOAPY_SDR_RX, channelNumber);
 	cout << "Channel " << channelNumber << " available gains: " << gains << endl;
-	for (vector<string>::iterator gainIterator = gains.begin(); gainIterator != gains.end(); gainIterator++) {
-	    cout << "Channel " << channelNumber << " gain range for '" << *gainIterator << "': " << device->getGainRange(SOAPY_SDR_RX, channelNumber, *gainIterator) << endl;
+	for (string gain : gains) {
+	    cout << "Channel " << channelNumber << " gain range for '" << gain << "': " << device->getGainRange(SOAPY_SDR_RX, channelNumber, gain) << endl;
 	}
 
 	// Antenna API
