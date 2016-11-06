@@ -3,7 +3,10 @@
 ostream& operator<< (ostream& os, const vector<double>& values) {
     os << "[";
     for (vector<double>::const_iterator iterator = values.begin(); iterator != values.end(); iterator++) {
-	os << *iterator << ",";
+	os << *iterator;
+	if (*iterator != values.back()) {
+	    os << ",";
+	}
     }
     os << "]";
     return os;
