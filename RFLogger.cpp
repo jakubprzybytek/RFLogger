@@ -8,9 +8,9 @@ using namespace std;
 static void printHelp() {
     cout << "Usage RFLogger [options]" << endl;
     cout << "  Options summary:" << endl;
-    cout << "    -l, --list-device		List all available SDR devices and exit" << endl;
-    cout << "    -i, --device-info		Display detailed information about the device in use" << endl;
-    cout << "    -h, --help			Display this help information and exit" << endl;
+    cout << "    -l, --list-device              List all available SDR devices and exit" << endl;
+    cout << "    -i, --device-info              Display detailed information about the device in use" << endl;
+    cout << "    -h, --help                     Display this help information and exit" << endl;
 }
 
 int main (int argc, char **argv) {
@@ -53,6 +53,13 @@ int main (int argc, char **argv) {
     sdr->setBandwidth(1.536e6);
     sdr->setSampleRate(2.048e6);
     sdr->setFrequency(100.5e6);
+
+    sdr->setupStream();
+    if (printDeviceInfo) {
+	sdr->printStreamInfo();
+    }
+
+    sdr->closeStream();
 
     delete sdr;
 }

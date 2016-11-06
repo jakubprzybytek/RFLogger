@@ -25,6 +25,12 @@ public:
 
     void setFrequency(double frequency);
 
+    void setupStream();
+
+    void printStreamInfo();
+
+    void closeStream();
+
     void printInfo();
 
 };

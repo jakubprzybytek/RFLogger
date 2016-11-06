@@ -41,6 +41,20 @@ void SDRDevice::setFrequency(double frequency) {
     cout << ", set to: " << device->getFrequency(SOAPY_SDR_RX, CHANNEL) << endl;
 }
 
+void SDRDevice::setupStream() {
+    cout << "Setting up a stream" << endl;
+    stream = device->setupStream(SOAPY_SDR_RX, "CF32");
+}
+
+void SDRDevice::printStreamInfo() {
+    cout << "Stream MTU: " << device->getStreamMTU(stream) << endl;
+}
+
+void SDRDevice::closeStream() {
+    cout << "Closing stream" << endl;
+    device->closeStream(stream);
+}
+
 void SDRDevice::printInfo() {
     // general info
     cout << "Driver key: " << device->getDriverKey() << endl;
