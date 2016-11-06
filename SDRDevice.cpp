@@ -16,7 +16,7 @@ SDRDevice::SDRDevice() {
 }
 
 SDRDevice::~SDRDevice() {
-    cout << "Closing SDR Device\n";
+    cout << "Closing SDR Device" << endl;
 
     Device::unmake(device);
 }
@@ -83,14 +83,14 @@ void SDRDevice::printInfo() {
 }
 
 void SDRDevice::listAvailableSDRDevices() {
-    cout << "Listing available SDR devices:\n";
+    cout << "Listing available SDR devices:" << endl;
 
     KwargsList devicesList = Device::enumerate();
 
     int i = 0;
     for (Kwargs deviceInfo : devicesList) {
-	cout << "(" << ++i << ") " << deviceInfo["label"] << " (" << deviceInfo["driver"] << ")\n";
+	cout << "(" << ++i << ") " << deviceInfo["label"] << " (" << deviceInfo["driver"] << ")" << endl;
     }
 
-    cout << "Found " << i << " device(s)\n";
+    cout << "Found " << i << " device(s)" << endl;
 }
