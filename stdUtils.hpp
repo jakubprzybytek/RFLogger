@@ -21,4 +21,15 @@ ostream& operator<< (ostream& os, const vector<T>& values) {
     return os;
 }
 
-ostream& operator<< (ostream& os, const Kwargs& kwargs);
+template <typename T, typename S>
+ostream& operator<< (ostream& os, const map<T, S>& myMap) {
+    os << "{";
+    for (auto iterator = myMap.begin(); iterator != myMap.end(); iterator++) {
+	os << iterator->first << "=" << iterator->second;
+	if (next(iterator) != myMap.end()) {
+	    os << ",";
+	}
+    }
+    os << "}";
+    return os;
+}

@@ -57,7 +57,29 @@ void SDRDevice::printInfo() {
 
 	// sample rates
 	cout << "Channel " << channelNumber << " sample rates: " << device->listSampleRates(SOAPY_SDR_RX, channelNumber) << endl;
+
+	// bandwidths
+	cout << "Channel " << channelNumber << " baseband widths: " << device->getBandwidthRange(SOAPY_SDR_RX, channelNumber) << endl;
     }
+
+    // Clocks API
+    cout << "Master clock rate: " << device->getMasterClockRate() << endl;
+    cout << "Master clock rates: " << device->getMasterClockRates() << endl;
+    cout << "Clock sources: " << device->listClockSources() << endl;
+    cout << "Clock source: " << device->getClockSource() << endl;
+
+    // Time API
+    cout << "Time sources: " << device->listTimeSources() << endl;
+    cout << "Time source: " << device->getTimeSource() << endl;
+
+    // Sensors API
+    cout << "Sensors: " << device->listSensors() << endl;
+
+    // Register API
+    cout << "Register interfaces: " << device->listRegisterInterfaces() << endl;
+
+    // Settings API
+    cout << "Settings: " << device->getSettingInfo() << endl;
 }
 
 void SDRDevice::listAvailableSDRDevices() {
