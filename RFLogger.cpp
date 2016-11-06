@@ -50,5 +50,9 @@ int main (int argc, char **argv) {
 	sdr->printInfo();
     }
 
+    sdr->setBandwidth(1.536e6);
+    sdr->setSampleRate(2.048e6);
+    sdr->setFrequency(100.5e6);
+
     delete sdr;
 }

@@ -6,7 +6,10 @@ using namespace SoapySDR;
 class SDRDevice {
 
 private:
+
     Device* device;
+
+    Stream* stream;
 
 public:
     
@@ -15,6 +18,12 @@ public:
     SDRDevice();
 
     ~SDRDevice();
+
+    void setBandwidth(double bandwidth);
+
+    void setSampleRate(double sampleRate);
+
+    void setFrequency(double frequency);
 
     void printInfo();
 
