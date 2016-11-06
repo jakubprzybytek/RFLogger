@@ -7,7 +7,7 @@ using namespace std;
 int main () {
     cout << "Starting..." << endl;
 
-    SDRDevice::listAvailableSDRDevices();
+//    SDRDevice::listAvailableSDRDevices();
 
     SDRDevice *sdr = new SDRDevice();
 
