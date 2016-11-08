@@ -26,11 +26,21 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
 add_executable(RFLogger
-	stdUtils.hpp
-	stdUtils.cpp
         SDRDevice.hpp
         SDRDevice.cpp
 	RFLogger.cpp
+	common/stdUtils.hpp
+	common/stdUtils.cpp
+	fft/FFT.hpp
+	fft/kissfft.hh
+)
+
+add_executable(FFTTests
+	common/stdUtils.hpp
+	common/stdUtils.cpp
+	fft/FFTTests.cpp
+	fft/FFT.hpp
+	fft/kissfft.hh
 )
 
 target_link_libraries(RFLogger SoapySDR)

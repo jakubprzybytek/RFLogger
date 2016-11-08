@@ -4,6 +4,7 @@
 using namespace std;
 
 #include "SDRDevice.hpp"
+#include "fft/FFT.hpp"
 
 static void printHelp() {
     cout << "Usage RFLogger [options]" << endl;
@@ -60,6 +61,16 @@ int main (int argc, char **argv) {
     }
 
     sdr->readStream();
+
+    vector<complex<float>> input = {{0.0, 0.0}, {1.0, 0.0}, {0.0, 0.0}, {-1.0, 0.0}};
+    vector<complex<float>> output(input.size());
+
+    FFT fft;
+    fft.transform(input, output);
+
+    for (int i = 0; i < 4; i++) {
+	cout << output[i] << endl;
+    }
 
     sdr->closeStream();
 

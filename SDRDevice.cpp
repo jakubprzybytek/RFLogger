@@ -6,7 +6,7 @@
 using namespace std;
 using namespace SoapySDR;
 
-#include "stdUtils.hpp"
+#include "common/stdUtils.hpp"
 #include "SDRDevice.hpp"
 
 #define CHANNEL 0
