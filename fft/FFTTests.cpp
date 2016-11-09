@@ -4,14 +4,16 @@
 #include <cmath>
 #include <ctime>
 
+#include "../SDR.hpp"
 #include "../common/stdUtils.hpp"
+#include "../output/ostream.hpp"
 #include "FFT.hpp"
 
 using namespace std;
 
 const float _2PI = 2.0 * acos(-1);
 
-void fillWithCos(samples& samples, unsigned int n, const vector<float> &frequencies) {
+void fillWithCos(Samples& samples, unsigned int n, const vector<float> &frequencies) {
     cout << "Test sample: n='" << n << "', frequencies: " << frequencies << endl;
 
     for (unsigned int i = 0; i < n; i++) {
@@ -24,7 +26,7 @@ void fillWithCos(samples& samples, unsigned int n, const vector<float> &frequenc
     }
 }
 
-void normalize(samples& samples) {
+void normalize(Samples& samples) {
     for (unsigned int i = 0; i < samples.size(); i++) {
 	samples[i] = samples[i] / (float)samples.size();
     }
@@ -33,36 +35,40 @@ void normalize(samples& samples) {
 int main() {
 
     FFT fft;
+    OStreamSpectrumWriter console(cout);
 
     cout << "Test 1: sanity check" << endl;
 
-    samples smallInput(4);
+    Samples smallInput(4);
     fillWithCos(smallInput, 4, {1.0});
     cout << "Input data: " << smallInput << endl;
 
-    samples smallOutput(smallInput.size());
+    Samples smallOutput(smallInput.size());
 
     fft.transform(smallInput, smallOutput);
 
     normalize(smallOutput);
+    console << smallOutput;
 
     cout << "Output data: [";
-    for (sample a : smallOutput) {
+    for (Sample a : smallOutput) {
 	cout << norm(a) << ",";
     }
     cout << "]" << endl;
 
     cout << endl << "Test 2: execution time" << endl;
 
-    samples input(1 << 20);
-    fillWithCos(input, 1 << 20, {2.0, 6.0});
+    for (auto n : {1 << 10, 1 << 16, 1 << 20}) {
+	Samples input(n);
+	fillWithCos(input, n, {2.0, 6.0});
 
-    samples output(input.size());
+	Samples output(input.size());
 
-    clock_t start = clock();
-    fft.transform(input, output);
-    clock_t end = clock();
+	clock_t start = clock();
+	fft.transform(input, output);
+	clock_t end = clock();
 
-    cout << "CPU time: " << double(end - start) / (CLOCKS_PER_SEC / 1000.0) << "ms" << endl;
+	cout << "CPU time: " << double(end - start) / (CLOCKS_PER_SEC / 1000.0) << "ms" << endl;
+    }
 
 }

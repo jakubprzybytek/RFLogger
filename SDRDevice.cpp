@@ -64,15 +64,15 @@ void SDRDevice::printStreamInfo() {
     cout << "Stream buffer size: " << streamMTU * sizeof(complex<float>) << endl;
 }
 
-void SDRDevice::readStream() {
+void SDRDevice::readStream(Samples& samples) {
     int flags = 0;
     long long timeNs = 0;
     int read = device->readStream(stream, buffers, streamMTU, flags, timeNs);
 
-    cout << "Read '" << read << "' in '" << timeNs << "' ns" << endl;
+//    cout << "Read '" << read << "' in '" << timeNs << "' ns" << endl;
 
-    for (unsigned int i = 0; i < 1024; i++) {
-	cout << buffer[i] << endl;
+    for (unsigned int i = 0; i < samples.size(); i++) {
+	samples[i] = buffer[i];
     }
 }
 

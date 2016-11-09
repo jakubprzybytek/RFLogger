@@ -31,6 +31,8 @@ add_executable(RFLogger
 	RFLogger.cpp
 	common/stdUtils.hpp
 	common/stdUtils.cpp
+	output/ostream.hpp
+	output/ostream.cpp
 	fft/FFT.hpp
 	fft/kissfft.hh
 )
@@ -38,6 +40,8 @@ add_executable(RFLogger
 add_executable(FFTTests
 	common/stdUtils.hpp
 	common/stdUtils.cpp
+	output/ostream.hpp
+	output/ostream.cpp
 	fft/FFTTests.cpp
 	fft/FFT.hpp
 	fft/kissfft.hh

@@ -3,6 +3,8 @@
 #include <SoapySDR/Device.hpp>
 #include <SoapySDR/Formats.hpp>
 
+#include "SDR.hpp"
+
 using namespace SoapySDR;
 
 class SDRDevice {
@@ -30,7 +32,7 @@ public:
     void setupStream();
     void closeStream();
     void printStreamInfo();
-    void readStream();
+    void readStream(Samples& samples);
 
     void printInfo();
 
