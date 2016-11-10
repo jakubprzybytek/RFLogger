@@ -61,11 +61,11 @@ int main (int argc, char **argv) {
 	sdr->printStreamInfo();
     }
 
-    OStreamSpectrumWriter console(cout);
+    OStreamSpectrumWriter console(cout, 180);
 
     FFT fft;
 
-    Samples samples(128);
+    Samples samples(1 << 16);
     Samples spectrum(samples.size());
 
     for (unsigned int i = 0; i < 50; i++) {

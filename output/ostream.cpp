@@ -1,6 +1,6 @@
 #include "ostream.hpp"
 
-OStreamSpectrumWriter::OStreamSpectrumWriter(ostream& stream) : stream(stream) {
+OStreamSpectrumWriter::OStreamSpectrumWriter(ostream& stream, short consoleWidth) : stream(stream), consoleWidth(consoleWidth) {
 }
 
 void OStreamSpectrumWriter::process(const Samples& samples) {
@@ -10,10 +10,19 @@ void OStreamSpectrumWriter::process(const Samples& samples) {
 	    max = norm(sample);
 	}
     }
-    for (Sample sample : samples) {
-	stream << short(9 * norm(sample) / max);
+
+    short binWidth = samples.size() / consoleWidth + 1;
+    float binValue = 0.0;
+    for (unsigned int i = 0; i < samples.size(); i++) {
+	if (i != 0 && i % binWidth == 0) {
+	    stream << short(9 * binValue / max);
+	    binValue = 0.0;
+	}
+	if (norm(samples[i]) > binValue) {
+	    binValue = norm(samples[i]);
+	}
     }
-    stream << endl;
+    stream << short(9 * binValue / max) << endl;
 }
 
 OStreamSpectrumWriter& operator<< (OStreamSpectrumWriter& os, const Samples& samples) {

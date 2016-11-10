@@ -6,9 +6,11 @@ class OStreamSpectrumWriter {
 
     ostream& stream;
 
+    short consoleWidth;
+
 public:
 
-    OStreamSpectrumWriter(ostream& stream);
+    OStreamSpectrumWriter(ostream& stream, short consoleWidth = 10);
 
     void process(const Samples& samples);
 
