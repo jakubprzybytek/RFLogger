@@ -1,4 +1,4 @@
-#include "../SDR.hpp"
+#include "../sdr/SDR.hpp"
 #include "kissfft.hh"
 
 using namespace std;

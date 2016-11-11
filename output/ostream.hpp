@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "../SDR.hpp"
+#include "../sdr/SDR.hpp"
 
 class OStreamSpectrumWriter {
 

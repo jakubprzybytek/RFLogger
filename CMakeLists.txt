@@ -26,15 +26,17 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
 add_executable(RFLogger
-        SDRDevice.hpp
-        SDRDevice.cpp
-	RFLogger.cpp
 	common/stdUtils.hpp
 	common/stdUtils.cpp
 	output/ostream.hpp
 	output/ostream.cpp
+        sdr/SDRDevice.hpp
+        sdr/SDRDevice.cpp
 	fft/FFT.hpp
 	fft/kissfft.hh
+	RFLogger.hpp
+	RFLogger.cpp
+	ReadSamples.cpp
 )
 
 add_executable(FFTTests

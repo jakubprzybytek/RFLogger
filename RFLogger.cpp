@@ -1,12 +1,12 @@
-#include <csignal>
 #include <iostream>
 #include <getopt.h>
 
 using namespace std;
 
-#include "SDRDevice.hpp"
-#include "fft/FFT.hpp"
 #include "output/ostream.hpp"
+#include "fft/FFT.hpp"
+#include "sdr/SDRDevice.hpp"
+#include "RFLogger.hpp"
 
 static void printHelp() {
     cout << "Usage RFLogger [options]" << endl;
@@ -17,18 +17,13 @@ static void printHelp() {
     cout << "    -h, --help                     Display this help information and exit" << endl;
 }
 
-static bool keepReading = true;
-
-static void interrupt(int signum) {
-    keepReading = false;
-}
-
 int main (int argc, char **argv) {
 
-    signal(SIGINT, interrupt);
-
-    static int printDeviceInfo = 0;
     static unsigned int number = 10;
+    double bandwidth = 1.536e6;
+    double sampleRate = 2.048e6;
+    double frequency = 100.5e6;
+    static int printDeviceInfo = 0;
 
     cout << "Starting..." << endl;
 
@@ -45,7 +40,7 @@ int main (int argc, char **argv) {
     while ((opt = getopt_long(argc, argv, "lin:h", longOptions, &optionIndex)) != -1) {
 	switch (opt) {
 	    case 'l':
-	        SDRDevice::listAvailableSDRDevices();
+            SDRDevice::listAvailableSDRDevices();
 	    exit(0);
 
 	    case 'i':
@@ -62,48 +57,6 @@ int main (int argc, char **argv) {
 	}
     }
 
-    SDRDevice *sdr = new SDRDevice();
+    ReadSamples(number, bandwidth, sampleRate, frequency, printDeviceInfo);
 
-    if (printDeviceInfo) {
-	sdr->printInfo();
-    }
-
-    sdr->setBandwidth(1.536e6);
-    sdr->setSampleRate(2.048e6);
-    sdr->setFrequency(100.5e6);
-
-    sdr->setupStream();
-    if (printDeviceInfo) {
-	sdr->printStreamInfo();
-    }
-
-    OStreamSpectrumWriter console(cout, 200);
-
-    FFT fft;
-
-    Samples samples(1 << 16);
-    Samples spectrum(samples.size());
-
-    if (number > 0) {
-	cout << "Performing '" << number << "' reads" << endl;
-    } else {
-	cout << "Performing endless reads" << endl;
-    }    
-    
-    unsigned int i = 0;
-    while (keepReading) {
-	sdr->readStream(samples);
-	fft.transform(samples, spectrum);
-	console << spectrum;
-
-	if (number > 0) {
-	    if (++i >= number) {
-		keepReading = false;
-	    }
-	}
-    }
-
-    sdr->closeStream();
-
-    delete sdr;
 }

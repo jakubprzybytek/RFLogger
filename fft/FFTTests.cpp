@@ -4,9 +4,9 @@
 #include <cmath>
 #include <ctime>
 
-#include "../SDR.hpp"
 #include "../common/stdUtils.hpp"
 #include "../output/ostream.hpp"
+#include "../sdr/SDR.hpp"
 #include "FFT.hpp"
 
 using namespace std;
