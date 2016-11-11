@@ -19,15 +19,19 @@ void ReadSamples (unsigned int number, double bandwidth, double sampleRate, doub
 
     cout << "Starting reads..." << endl;
 
-    SDRDevice *sdr = new SDRDevice();
+    SDRDevice sdr;
 
-    sdr->setBandwidth(bandwidth);
-    sdr->setSampleRate(sampleRate);
-    sdr->setFrequency(frequency);
-
-    sdr->setupStream();
     if (printDeviceInfo) {
-	sdr->printStreamInfo();
+	sdr.printInfo();
+    }
+
+    sdr.setBandwidth(bandwidth);
+    sdr.setSampleRate(sampleRate);
+    sdr.setFrequency(frequency);
+
+    sdr.setupStream();
+    if (printDeviceInfo) {
+	sdr.printStreamInfo();
     }
 
     FFT fft;
@@ -43,7 +47,7 @@ void ReadSamples (unsigned int number, double bandwidth, double sampleRate, doub
     
     unsigned int i = 0;
     while (keepReading) {
-	sdr->readStream(samples);
+	sdr.readStream(samples);
 	fft.transform(samples, spectrum);
 	output << spectrum;
 
@@ -54,7 +58,5 @@ void ReadSamples (unsigned int number, double bandwidth, double sampleRate, doub
 	}
     }
 
-    sdr->closeStream();
-
-    delete sdr;
+    sdr.closeStream();
 }
