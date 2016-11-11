@@ -14,6 +14,7 @@ static void printHelp() {
     cout << "    -l, --list-device              List all available SDR devices and exit" << endl << endl;
     cout << "    -i, --device-info              Display detailed information about the device in use" << endl;
     cout << "    -n, --number <number>          Perform <number> reads and exit. If '0' then read in loop." << endl;
+    cout << "    -f, --frequency <float>        Sets frequency to <float>" << endl;
     cout << "    -c, --console <number>         Use console as an output with width set to <number>" << endl << endl;
     cout << "    -h, --help                     Display this help information and exit" << endl;
 }
@@ -31,6 +32,7 @@ int main (int argc, char **argv) {
 	{ "list-devices", no_argument, 0, 'l' },
 	{ "device-info", no_argument, &printDeviceInfo, 'i' },
 	{ "number", required_argument, 0, 'n' },
+	{ "frequency", required_argument, 0, 'f' },
 	{ "console", required_argument, 0, 'c' },
         { "help", no_argument, 0, 'h' },
         { 0, 0, 0, 0 }
@@ -38,7 +40,7 @@ int main (int argc, char **argv) {
 
     int opt;
     int optionIndex = 0;
-    while ((opt = getopt_long(argc, argv, "lin:c:h", longOptions, &optionIndex)) != -1) {
+    while ((opt = getopt_long(argc, argv, "lin:f:c:h", longOptions, &optionIndex)) != -1) {
 	switch (opt) {
 	    case 'l':
             SDRDevice::listAvailableSDRDevices();
@@ -50,6 +52,10 @@ int main (int argc, char **argv) {
 
 	    case 'n':
 	    number = stoi(optarg);
+	    break;
+
+	    case 'f':
+	    frequency = stof(optarg);
 	    break;
 
 	    case 'c':
