@@ -13,7 +13,7 @@ static void interrupt(__attribute__((unused)) int signum) {
     keepReading = false;
 }
 
-void ReadSamples (unsigned int number, double bandwidth, double sampleRate, double frequency, bool printDeviceInfo) {
+void ReadSamples (unsigned int number, double bandwidth, double sampleRate, double frequency, bool printDeviceInfo, OStreamSpectrumWriter& output) {
 
     signal(SIGINT, interrupt);
 
@@ -30,8 +30,6 @@ void ReadSamples (unsigned int number, double bandwidth, double sampleRate, doub
 	sdr->printStreamInfo();
     }
 
-    OStreamSpectrumWriter console(cout, 200);
-
     FFT fft;
 
     Samples samples(1 << 16);
@@ -47,7 +45,7 @@ void ReadSamples (unsigned int number, double bandwidth, double sampleRate, doub
     while (keepReading) {
 	sdr->readStream(samples);
 	fft.transform(samples, spectrum);
-	console << spectrum;
+	output << spectrum;
 
 	if (number > 0) {
 	    if (++i >= number) {

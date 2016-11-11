@@ -5,7 +5,11 @@ Lighweight tool for basic long lasting RF logging. Uses [SoapySDR](https://githu
 ```
 Usage RFLogger [options]
   Options summary:
-    -l, --list-device           List all available SDR devices and exit
-    -i, --device-info           Display detailed information about the device in use
-    -h, --help                  Display this help information and exit
+    -l, --list-device              List all available SDR devices and exit
+
+    -i, --device-info              Display detailed information about the device in use
+    -n, --number <number>          Perform <number> reads and exit. If '0' then read in loop.
+    -c, --console <number>         Use console as an output with width set to <number>
+
+    -h, --help                     Display this help information and exit
 ```

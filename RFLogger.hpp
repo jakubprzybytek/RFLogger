@@ -1,1 +1,1 @@
-void ReadSamples (unsigned int number, double bandwidth, double sampleRate, double frequency, bool printDeviceInfo);
+void ReadSamples (unsigned int, double, double, double, bool, OStreamSpectrumWriter&);
