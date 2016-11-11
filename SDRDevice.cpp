@@ -6,7 +6,6 @@
 using namespace std;
 using namespace SoapySDR;
 
-#include "common/stdUtils.hpp"
 #include "SDRDevice.hpp"
 
 #define CHANNEL 0
@@ -24,21 +23,21 @@ SDRDevice::~SDRDevice() {
 }
 
 void SDRDevice::setBandwidth(double bandwidth) {
-    cout << "Setting bandwidth to: " << bandwidth;
+    cout << "Setting bandwidth to: " << Hertz(bandwidth);
     device->setBandwidth(SOAPY_SDR_RX, CHANNEL, bandwidth);
-    cout << ", set to: " << device->getBandwidth(SOAPY_SDR_RX, CHANNEL) << endl;
+    cout << ", set to: " << Hertz(device->getBandwidth(SOAPY_SDR_RX, CHANNEL)) << endl;
 }
 
 void SDRDevice::setSampleRate(double sampleRate) {
-    cout << "Setting sample rate to: " << sampleRate;
+    cout << "Setting sample rate to: " << Hertz(sampleRate);
     device->setSampleRate(SOAPY_SDR_RX, CHANNEL, sampleRate);
-    cout << ", set to: " << device->getSampleRate(SOAPY_SDR_RX, CHANNEL) << endl;
+    cout << ", set to: " << Hertz(device->getSampleRate(SOAPY_SDR_RX, CHANNEL)) << endl;
 }
 
 void SDRDevice::setFrequency(double frequency) {
-    cout << "Setting frequency to: " << frequency;
+    cout << "Setting frequency to: " << Hertz(frequency);
     device->setFrequency(SOAPY_SDR_RX, CHANNEL, frequency);
-    cout << ", set to: " << device->getFrequency(SOAPY_SDR_RX, CHANNEL) << endl;
+    cout << ", set to: " << Hertz(device->getFrequency(SOAPY_SDR_RX, CHANNEL)) << endl;
 }
 
 void SDRDevice::setupStream() {
@@ -67,7 +66,7 @@ void SDRDevice::printStreamInfo() {
 void SDRDevice::readStream(Samples& samples) {
     int flags = 0;
     long long timeNs = 0;
-    int read = device->readStream(stream, buffers, streamMTU, flags, timeNs);
+    /* int read = */ device->readStream(stream, buffers, streamMTU, flags, timeNs);
 
 //    cout << "Read '" << read << "' in '" << timeNs << "' ns" << endl;
 

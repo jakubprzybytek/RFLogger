@@ -33,3 +33,14 @@ ostream& operator<< (ostream& os, const map<T, S>& myMap) {
     os << "}";
     return os;
 }
+
+class Hertz {
+
+private:
+    double value;
+
+public:
+    Hertz (double v) : value(v) {}
+    friend ostream& operator << (ostream&, Hertz);
+
+};

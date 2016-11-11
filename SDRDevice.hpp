@@ -3,6 +3,7 @@
 #include <SoapySDR/Device.hpp>
 #include <SoapySDR/Formats.hpp>
 
+#include "common/stdUtils.hpp"
 #include "SDR.hpp"
 
 using namespace SoapySDR;
@@ -12,9 +13,10 @@ class SDRDevice {
 private:
 
     Device* device;
-
     Stream* stream;
+
     size_t streamMTU;
+
     complex<float>* buffer;
     void* buffers[1];
 
