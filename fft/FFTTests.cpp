@@ -32,12 +32,9 @@ void normalize(Samples& samples) {
     }
 }
 
-int main() {
-
-    FFT fft;
+void test1(FFT& fft) {
     OStreamSpectrumWriter console(cout);
-
-    cout << "Test 1: sanity check" << endl;
+    cout << "Test 1: Sanity check" << endl;
 
     Samples smallInput(4);
     fillWithCos(smallInput, 4, {1.0});
@@ -54,9 +51,49 @@ int main() {
     for (Sample a : smallOutput) {
 	cout << norm(a) << ",";
     }
-    cout << "]" << endl;
+    cout << "]" << endl << endl;
+}
 
-    cout << endl << "Test 2: execution time" << endl;
+void test2(FFT& fft) {
+
+    const unsigned short width = 32;
+
+    OStreamSpectrumWriter console(cout, width);
+    cout << "Test 2: Transformation limits" << endl;
+
+    Samples samples(width);
+    Samples spectrum(samples.size());
+
+    fillWithCos(samples, width, { 1.0 });
+    fft.transform(samples, spectrum);
+    normalize(spectrum);
+    console << spectrum;
+
+    fillWithCos(samples, width, { 1.0, 10.0 });
+    fft.transform(samples, spectrum);
+    normalize(spectrum);
+    console << spectrum;
+
+    fillWithCos(samples, width, { 1.0, 10.0, 15.0 });
+    fft.transform(samples, spectrum);
+    normalize(spectrum);
+    console << spectrum;
+
+    fillWithCos(samples, width, { 1.0, 10.0, 16.0 });
+    fft.transform(samples, spectrum);
+    normalize(spectrum);
+    console << spectrum;
+
+    fillWithCos(samples, width, { 1.0, 10.0, 16.0, 26.0 });
+    fft.transform(samples, spectrum);
+    normalize(spectrum);
+    console << spectrum;
+
+    cout << endl;
+}
+
+void test3(FFT& fft) {
+    cout << "Test 3: Execution time" << endl;
 
     for (auto n : {1 << 10, 1 << 16, 1 << 20}) {
 	Samples input(n);
@@ -70,5 +107,17 @@ int main() {
 
 	cout << "CPU time: " << double(end - start) / (CLOCKS_PER_SEC / 1000.0) << "ms" << endl;
     }
+    cout << endl;
+}
+
+int main() {
+
+    FFT fft;
+
+    test1(fft);
+
+    test2(fft);
+
+    test3(fft);
 
 }

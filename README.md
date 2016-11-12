@@ -9,6 +9,9 @@ Usage RFLogger [options]
 
     -i, --device-info              Display detailed information about the device in use
     -n, --number <number>          Perform <number> reads and exit. If '0' then read in loop.
+    -b, --bandwidth <float>        Sets bandwidth to <float>
+    -s, --samplerate <float>       Sets sample reate to <float>
+    -f, --frequency <float>        Sets frequency to <float>
     -c, --console <number>         Use console as an output with width set to <number>
 
     -h, --help                     Display this help information and exit

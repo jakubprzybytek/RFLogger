@@ -11,7 +11,7 @@ void OStreamSpectrumWriter::process(const Samples& samples) {
 	}
     }
 
-    short binWidth = samples.size() / consoleWidth + 1;
+    short binWidth = (samples.size() - 1) / consoleWidth + 1;
     float binValue = 0.0;
     for (unsigned int i = 0; i < samples.size(); i++) {
 	if (i != 0 && i % binWidth == 0) {

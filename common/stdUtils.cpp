@@ -22,12 +22,14 @@ ostream& operator << (ostream& os, const ArgInfo& argInfo) {
 }
 
 ostream& operator << (ostream& os, Hertz hertz) {
+    cout << "\033[32m";
     if (long(hertz.value) % 100000 == 0) {
-	os << hertz.value / 1000000 <<  "MHz";
+	os << hertz.value / 1000000 <<  "\033[1mMHz";
     } else if (long(hertz.value) % 1000 == 0) {
-	os << hertz.value / 1000 << "kHz";
+	os << hertz.value / 1000 << "\033[1mkHz";
     } else {
-	os << hertz.value << "Hz";
+	os << hertz.value << "\033[1mHz";
     }
+    cout << "\033[0m";
     return os;
 }
