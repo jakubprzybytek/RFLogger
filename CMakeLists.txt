@@ -9,7 +9,12 @@ if (NOT SoapySDR_FOUND)
     message(FATAL_ERROR "Soapy SDR development files not found...")
 endif ()
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+find_package(Boost "1.55" COMPONENTS serialization REQUIRED)
+
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${Boost_INCLUDE_DIR}
+)
 
 #enable c++11 features
 if(CMAKE_COMPILER_IS_GNUCXX)
@@ -30,6 +35,7 @@ add_executable(RFLogger
 	common/stdUtils.cpp
 	output/ostream.hpp
 	output/ostream.cpp
+	storage/Storage.hpp
         sdr/SDRDevice.hpp
         sdr/SDRDevice.cpp
 	fft/FFT.hpp
@@ -49,4 +55,10 @@ add_executable(FFTTests
 	fft/kissfft.hh
 )
 
-target_link_libraries(RFLogger SoapySDR)
+add_executable(StorageTest
+	storage/Storage.hpp
+	storage/StorageTest.cpp
+)
+
+target_link_libraries(RFLogger SoapySDR ${Boost_LIBRARIES})
+target_link_libraries(StorageTest ${Boost_LIBRARIES})

@@ -6,6 +6,7 @@ using namespace std;
 #include "output/ostream.hpp"
 #include "fft/FFT.hpp"
 #include "sdr/SDRDevice.hpp"
+#include "storage/Storage.hpp"
 
 static bool keepReading = true;
 
@@ -57,6 +58,9 @@ void ReadSamples (unsigned int number, double bandwidth, double sampleRate, doub
 	    }
 	}
     }
+
+    Storage storage;
+    storage.archive(spectrum);
 
     sdr.closeStream();
 }
