@@ -36,6 +36,7 @@ add_executable(RFLogger
 	output/ostream.hpp
 	output/ostream.cpp
 	storage/Storage.hpp
+	storage/Storage.cpp
         sdr/SDRDevice.hpp
         sdr/SDRDevice.cpp
 	fft/FFT.hpp
@@ -57,6 +58,7 @@ add_executable(FFTTests
 
 add_executable(StorageTest
 	storage/Storage.hpp
+	storage/Storage.cpp
 	storage/StorageTest.cpp
 )
 

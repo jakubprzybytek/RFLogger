@@ -26,9 +26,7 @@ public:
 	: sdrDevice(sdrDevice), bandwidth(bandwidth), sampleRate(sampleRate), frequency(frequency) {}
 
     template <class Archive>
-    void serialize (Archive & ar, __attribute__((unused))  const unsigned int version) {
-	ar & sdrDevice, bandwidth, sampleRate, frequency;
-    }
+    void serialize (Archive& ar, __attribute__((unused)) const unsigned int version);
 };
 
 class SamplesCollection {
@@ -38,14 +36,11 @@ private:
     Samples samples;
 
 public:
-    SamplesCollection(ReadSignature readSignature, Samples samples)
-	: readSignature(readSignature), samples(samples) {}
+    SamplesCollection (ReadSignature readSignature, Samples samples)
+	: readSignature (readSignature), samples(samples) {}
 
     template <class Archive>
-    void serialize (Archive & ar, __attribute__((unused))  const unsigned int version) {
-	ar & samples;
-    }
-
+    void serialize (Archive& ar, __attribute__((unused)) const unsigned int version);
 };
 
 class Storage {
@@ -55,24 +50,10 @@ private:
     ReadSignature readSignature;
 
 public:
-    Storage(string fileNamePrefix) : fileNamePrefix (fileNamePrefix) {}
+    Storage (string fileNamePrefix) : fileNamePrefix (fileNamePrefix) {}
+    void setReadSignature (string sdrDevice, double bandwidth, double sampleRate, double frequency);
 
-    void setReadSignature(string sdrDevice, double bandwidth, double sampleRate, double frequency) {
-	readSignature = ReadSignature(sdrDevice, bandwidth, sampleRate, frequency);
-    }
-
-    void archive(Samples samples) {
-	ofstream ofs(fileNamePrefix + "Samples.bin");
-	binary_oarchive archive(ofs);
-
-	SamplesCollection samplesCollection(readSignature, samples);
-
-	archive << samplesCollection;
-    }
-
+    void archive (Samples samples);
 };
 
-Storage& operator << (Storage& storage, Samples samples) {
-    storage.archive(samples);
-    return storage;
-}
+Storage& operator << (Storage& storage, Samples& samples);
