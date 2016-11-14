@@ -59,7 +59,8 @@ void ReadSamples (unsigned int number, double bandwidth, double sampleRate, doub
 	}
     }
 
-    Storage storage;
+    Storage storage("SDRPlus-");
+    storage.setReadSignature("x", bandwidth, sampleRate, frequency);
     storage.archive(spectrum);
 
     sdr.closeStream();
