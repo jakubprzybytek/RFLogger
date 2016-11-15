@@ -27,34 +27,47 @@ public:
 		: sdrDevice(sdrDevice), bandwidth(bandwidth), sampleRate(sampleRate), frequency(frequency), fftWindow(fftWindow) {}
 
 	template <class Archive>
-	void serialize (Archive& ar, __attribute__((unused)) const unsigned int version);
+	void serialize (Archive&, const unsigned int);
+};
+
+class Timestamped {
+
+private:
+	unsigned long long	ms;
+	Samples				samples;
+
+public:
+	Timestamped(unsigned long long ms, Samples samples) : ms(ms), samples(samples) {}
+
+	template <class Archive>
+	void serialize(Archive&, const unsigned int);
 };
 
 class SamplesCollection {
 
 private:
-	ReadSignature readSignature;
-	Samples samples;
+	ReadSignature	readSignature;
+	Timestamped		timestampedSamples;
 
 public:
-	SamplesCollection (ReadSignature readSignature, Samples samples)
-		: readSignature (readSignature), samples(samples) {}
+	SamplesCollection(ReadSignature readSignature, Timestamped timestampedSamples)
+		: readSignature(readSignature), timestampedSamples(timestampedSamples) {}
 
 	template <class Archive>
-	void serialize (Archive& ar, __attribute__((unused)) const unsigned int version);
+	void serialize(Archive&, const unsigned int);
 };
 
 class Storage {
 
 private:
-	string fileNamePrefix;
-	ReadSignature readSignature;
+	string			fileNamePrefix;
+	ReadSignature	readSignature;
 
 public:
-	Storage (string fileNamePrefix) : fileNamePrefix (fileNamePrefix) {}
-	void setReadSignature (string sdrDevice, double bandwidth, double sampleRate, double frequency, unsigned int fftWindow);
+	Storage(string fileNamePrefix) : fileNamePrefix(fileNamePrefix) {}
+	void setReadSignature(string, double, double, double, unsigned int);
 
-	void archive (Samples samples);
+	void archive(Timestamped);
 };
 
-Storage& operator << (Storage& storage, Samples& samples);
+Storage& operator << (Storage&, Timestamped);

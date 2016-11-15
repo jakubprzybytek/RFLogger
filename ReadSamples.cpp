@@ -1,7 +1,9 @@
 #include <csignal>
 #include <iostream>
+#include <chrono>
 
 using namespace std;
+using namespace std::chrono;
 
 #include "output/ostream.hpp"
 #include "fft/FFT.hpp"
@@ -59,9 +61,11 @@ void ReadSamples (unsigned int number, double bandwidth, double sampleRate, doub
 		}
 	}
 
+	unsigned long long ms = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
+
 	Storage storage("SDRPlus-");
 	storage.setReadSignature(sdr.getDeviceSignature(), bandwidth, sampleRate, frequency, spectrum.size());
-	storage.archive(spectrum);
+	storage << Timestamped(ms, spectrum);
 
 	sdr.closeStream();
 }
