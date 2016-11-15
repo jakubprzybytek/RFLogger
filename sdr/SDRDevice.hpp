@@ -12,30 +12,33 @@ class SDRDevice {
 
 private:
 
-    Device* device;
-    Stream* stream;
+	Device* device;
+	Stream* stream;
 
-    size_t streamMTU;
+	size_t streamMTU;
 
-    complex<float>* buffer;
-    void* buffers[1];
+	complex<float>* buffer;
+	void* buffers[1];
 
 public:
-    
-    static void listAvailableSDRDevices();
+	
+	static void listAvailableSDRDevices();
 
-    SDRDevice();
-    ~SDRDevice();
+	SDRDevice();
+	~SDRDevice();
 
-    void setBandwidth(double bandwidth);
-    void setSampleRate(double sampleRate);
-    void setFrequency(double frequency);
+	void printInfo();
+	string getDeviceSignature();
 
-    void setupStream();
-    void closeStream();
-    void printStreamInfo();
-    void readStream(Samples& samples);
+	// main setting
+	void setBandwidth(double bandwidth);
+	void setSampleRate(double sampleRate);
+	void setFrequency(double frequency);
 
-    void printInfo();
+	// Stream manipulation
+	void setupStream();
+	void closeStream();
+	void printStreamInfo();
+	void readStream(Samples& samples);
 
 };

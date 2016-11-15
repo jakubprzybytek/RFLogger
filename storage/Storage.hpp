@@ -13,47 +13,48 @@ using namespace boost::archive;
 class ReadSignature {
 
 private:
-    string sdrDevice;
-    double bandwidth;
-    double sampleRate;
-    double frequency;
+	string sdrDevice;
+	double bandwidth;
+	double sampleRate;
+	double frequency;
+	unsigned int fftWindow;
 
 public:
-    ReadSignature(ReadSignature&) = default;
-    ReadSignature()
-	: sdrDevice(""), bandwidth(0.0), sampleRate(0.0), frequency(0.0) {}
-    ReadSignature(string sdrDevice, double bandwidth, double sampleRate, double frequency)
-	: sdrDevice(sdrDevice), bandwidth(bandwidth), sampleRate(sampleRate), frequency(frequency) {}
+	ReadSignature(ReadSignature&) = default;
+	ReadSignature()
+		: sdrDevice(""), bandwidth(0.0), sampleRate(0.0), frequency(0.0), fftWindow(0) {}
+	ReadSignature(string sdrDevice, double bandwidth, double sampleRate, double frequency, unsigned int fftWindow)
+		: sdrDevice(sdrDevice), bandwidth(bandwidth), sampleRate(sampleRate), frequency(frequency), fftWindow(fftWindow) {}
 
-    template <class Archive>
-    void serialize (Archive& ar, __attribute__((unused)) const unsigned int version);
+	template <class Archive>
+	void serialize (Archive& ar, __attribute__((unused)) const unsigned int version);
 };
 
 class SamplesCollection {
 
 private:
-    ReadSignature readSignature;
-    Samples samples;
+	ReadSignature readSignature;
+	Samples samples;
 
 public:
-    SamplesCollection (ReadSignature readSignature, Samples samples)
-	: readSignature (readSignature), samples(samples) {}
+	SamplesCollection (ReadSignature readSignature, Samples samples)
+		: readSignature (readSignature), samples(samples) {}
 
-    template <class Archive>
-    void serialize (Archive& ar, __attribute__((unused)) const unsigned int version);
+	template <class Archive>
+	void serialize (Archive& ar, __attribute__((unused)) const unsigned int version);
 };
 
 class Storage {
 
 private:
-    string fileNamePrefix;
-    ReadSignature readSignature;
+	string fileNamePrefix;
+	ReadSignature readSignature;
 
 public:
-    Storage (string fileNamePrefix) : fileNamePrefix (fileNamePrefix) {}
-    void setReadSignature (string sdrDevice, double bandwidth, double sampleRate, double frequency);
+	Storage (string fileNamePrefix) : fileNamePrefix (fileNamePrefix) {}
+	void setReadSignature (string sdrDevice, double bandwidth, double sampleRate, double frequency, unsigned int fftWindow);
 
-    void archive (Samples samples);
+	void archive (Samples samples);
 };
 
 Storage& operator << (Storage& storage, Samples& samples);
