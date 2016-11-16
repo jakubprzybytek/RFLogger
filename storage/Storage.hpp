@@ -1,7 +1,9 @@
+#include <list>
 #include <fstream>
 
 #include <boost/archive/text_oarchive.hpp>
 #include <boost/archive/binary_oarchive.hpp>
+#include <boost/serialization/list.hpp>
 #include <boost/serialization/vector.hpp>
 #include <boost/serialization/complex.hpp>
 
@@ -32,11 +34,10 @@ public:
 
 class Timestamped {
 
-private:
-	unsigned long long	ms;
-	Samples				samples;
-
 public:
+	unsigned long long ms;
+	Samples samples;
+
 	Timestamped(unsigned long long ms, Samples samples) : ms(ms), samples(samples) {}
 
 	template <class Archive>
@@ -46,12 +47,12 @@ public:
 class SamplesCollection {
 
 private:
-	ReadSignature	readSignature;
-	Timestamped		timestampedSamples;
+	ReadSignature readSignature;
+	list<Timestamped> timestampedSamplesList;
 
 public:
-	SamplesCollection(ReadSignature readSignature, Timestamped timestampedSamples)
-		: readSignature(readSignature), timestampedSamples(timestampedSamples) {}
+	SamplesCollection(ReadSignature readSignature, list<Timestamped> timestampedSamplesList)
+		: readSignature(readSignature), timestampedSamplesList(timestampedSamplesList) {}
 
 	template <class Archive>
 	void serialize(Archive&, const unsigned int);
@@ -60,14 +61,19 @@ public:
 class Storage {
 
 private:
-	string			fileNamePrefix;
-	ReadSignature	readSignature;
+	string fileNamePrefix;
+	ReadSignature readSignature;
+
+	list<Timestamped> waitingQueue;
+
+	void archive();
 
 public:
 	Storage(string fileNamePrefix) : fileNamePrefix(fileNamePrefix) {}
+	~Storage();
 	void setReadSignature(string, double, double, double, unsigned int);
 
-	void archive(Timestamped);
+	void collect(Timestamped);
 };
 
-Storage& operator << (Storage&, Timestamped);
+Storage& operator<< (Storage&, Timestamped);

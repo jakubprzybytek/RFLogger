@@ -10,6 +10,8 @@ using namespace std::chrono;
 #include "sdr/SDRDevice.hpp"
 #include "storage/Storage.hpp"
 
+#define NOW duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count()
+
 static bool keepReading = true;
 
 static void interrupt(__attribute__((unused)) int signum) {
@@ -47,12 +49,19 @@ void ReadSamples (unsigned int number, double bandwidth, double sampleRate, doub
 	} else {
 		cout << "Performing endless reads" << endl;
 	}	
+
+	Storage storage("SDRPlus-");
+	storage.setReadSignature(sdr.getDeviceSignature(), bandwidth, sampleRate, frequency, spectrum.size());
 	
 	unsigned int i = 0;
 	while (keepReading) {
+		unsigned long long ms = NOW;
+
 		sdr.readStream(samples);
 		fft.transform(samples, spectrum);
+
 		output << spectrum;
+		storage << Timestamped(ms, spectrum);
 
 		if (number > 0) {
 			if (++i >= number) {
@@ -60,12 +69,6 @@ void ReadSamples (unsigned int number, double bandwidth, double sampleRate, doub
 			}
 		}
 	}
-
-	unsigned long long ms = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
-
-	Storage storage("SDRPlus-");
-	storage.setReadSignature(sdr.getDeviceSignature(), bandwidth, sampleRate, frequency, spectrum.size());
-	storage << Timestamped(ms, spectrum);
 
 	sdr.closeStream();
 }
