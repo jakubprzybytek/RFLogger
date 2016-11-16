@@ -67,13 +67,14 @@ private:
 	list<Timestamped> waitingQueue;
 
 	void archive();
+	void collect(Timestamped);
 
 public:
 	Storage(string fileNamePrefix) : fileNamePrefix(fileNamePrefix) {}
 	~Storage();
 	void setReadSignature(string, double, double, double, unsigned int);
 
-	void collect(Timestamped);
+	friend Storage& operator<< (Storage&, Timestamped);
 };
 
 Storage& operator<< (Storage&, Timestamped);
