@@ -8,9 +8,9 @@ class FFT {
 
 public:
 
-    void transform (Samples &input, Samples &output) {
-	kissfft<float> fft(input.size(), false);
-	fft.transform(input.data(), output.data());
-    }
+	void transform (Samples &input, Samples &output) {
+		kissfft<float> fft(input.size(), false);
+		fft.transform(input.data(), output.data());
+	}
 
 };

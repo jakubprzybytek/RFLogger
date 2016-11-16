@@ -43,7 +43,7 @@ void Storage::archive() {
 void Storage::collect(Timestamped timestampedSamples) {
 	waitingQueue.push_back(timestampedSamples);
 
-	if (waitingQueue.size() >= 4) {
+	if (waitingQueue.size() >= 100) {
 		archive();
 	}
 }

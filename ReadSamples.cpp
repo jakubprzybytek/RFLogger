@@ -43,6 +43,7 @@ void ReadSamples (unsigned int number, double bandwidth, double sampleRate, doub
 
 	Samples samples(1 << 16);
 	Samples spectrum(samples.size());
+	Samples shrunkSpectrum(1 << 10);
 
 	if (number > 0) {
 		cout << "Performing '" << number << "' reads" << endl;
@@ -61,7 +62,9 @@ void ReadSamples (unsigned int number, double bandwidth, double sampleRate, doub
 		fft.transform(samples, spectrum);
 
 		output << spectrum;
-		storage << Timestamped(ms, spectrum);
+		
+		SamplesUtil::shrink(spectrum, shrunkSpectrum);
+		storage << Timestamped(ms, shrunkSpectrum);
 
 		if (number > 0) {
 			if (++i >= number) {
