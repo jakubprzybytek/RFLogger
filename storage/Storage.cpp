@@ -32,12 +32,22 @@ void Storage::archive() {
 	SamplesCollection samplesCollection(readSignature, waitingQueue);
 
 	unsigned long long ms = waitingQueue.front().ms;
-	
+
 	ofstream ofs(fileNamePrefix + to_string(ms) + ".bin");
 	binary_oarchive archive(ofs);
 	archive << samplesCollection;
 
 	waitingQueue.clear();
+}
+
+void Storage::restore(SamplesCollection& samplesCollection) {
+
+	string fileName = fileNamePrefix + "7" + ".bin";
+
+	cout << "Restoring from: " << fileName << endl;
+	ifstream ifs(fileName);
+	binary_iarchive archive(ifs);
+	archive >> samplesCollection;
 }
 
 void Storage::collect(Timestamped timestampedSamples) {
@@ -50,5 +60,10 @@ void Storage::collect(Timestamped timestampedSamples) {
 
 Storage& operator<< (Storage& storage, Timestamped timestampedSamples) {
 	storage.collect(timestampedSamples);
+	return storage;
+}
+
+Storage& operator>> (Storage& storage, SamplesCollection& samplesCollection) {
+	storage.restore(samplesCollection);
 	return storage;
 }
