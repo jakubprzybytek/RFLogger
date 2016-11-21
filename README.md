@@ -16,3 +16,17 @@ Usage RFLogger [options]
 
     -h, --help                     Display this help information and exit
 ```
+
+## Dependencies
+
+This tool requires following dependencies:
+* [SoapySDR](https://github.com/pothosware/SoapySDR/wiki)
+  * Most likely, you need device specific libs too, for example: [SoapySDRPlay](https://github.com/pothosware/SoapySDRPlay/wiki) and [SRDPlay](http://sdrplay.com/raspberrypi2.html)
+* [Boost Serialization](http://www.boost.org/doc/libs/release/libs/serialization/)
+* [ImageMagic](http://www.imagemagick.org), [Magic++](http://www.imagemagick.org/Magick++/)
+
+For example, on Rasperry Pi you can install them using following commands:
+```
+sudo apt install libboost-serialization-dev
+sudo apt install libmagick++-dev
+```
