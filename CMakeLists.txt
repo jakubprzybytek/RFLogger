@@ -11,22 +11,26 @@ endif ()
 
 find_package(Boost "1.55" COMPONENTS serialization REQUIRED)
 
+find_package(ImageMagick COMPONENTS Magick++ REQUIRED)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DMAGICKCORE_HDRI_ENABLE=0 -DMAGICKCORE_QUANTUM_DEPTH=16")
+
 include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}
 	${Boost_INCLUDE_DIR}
+	${ImageMagick_INCLUDE_DIRS}
 )
 
 #enable c++11 features
-if(CMAKE_COMPILER_IS_GNUCXX)
+if (CMAKE_COMPILER_IS_GNUCXX)
 
 	#C++11 is a required language feature for this project
 	include(CheckCXXCompilerFlag)
 	CHECK_CXX_COMPILER_FLAG("-std=c++11" HAS_STD_CXX11)
-	if(HAS_STD_CXX11)
+	if (HAS_STD_CXX11)
 		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-	else(HAS_STD_CXX11)
+	else (HAS_STD_CXX11)
 		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
-	endif()
+	endif ()
 
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
@@ -64,5 +68,10 @@ add_executable(StorageTest
 	storage/StorageTest.cpp
 )
 
+add_executable(ImagesTest
+	output/ImagesTest.cpp
+)
+
 target_link_libraries(RFLogger SoapySDR ${Boost_LIBRARIES})
 target_link_libraries(StorageTest ${Boost_LIBRARIES})
+target_link_libraries(ImagesTest ${ImageMagick_LIBRARIES})
