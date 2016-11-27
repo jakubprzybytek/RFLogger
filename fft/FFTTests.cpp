@@ -11,19 +11,9 @@
 
 using namespace std;
 
-const float _2PI = 2.0 * acos(-1);
-
 void fillWithCos(Samples& samples, unsigned int n, const vector<float> &frequencies) {
 	cout << "Test sample: n='" << n << "', frequencies: " << frequencies << endl;
-
-	for (unsigned int i = 0; i < n; i++) {
-		float real = 0.0;
-		for (float frequency : frequencies) {
-			real += cos(_2PI * frequency * i / samples.size());
-		}
-		samples[i].real(real / frequencies.size());
-		samples[i].imag(0.0);
-	}
+	SamplesUtil::fillWithCos(samples, n, frequencies);
 }
 
 void normalize(Samples& samples) {
@@ -115,9 +105,6 @@ int main() {
 	FFT fft;
 
 	test1(fft);
-
 	test2(fft);
-
 	test3(fft);
-
 }

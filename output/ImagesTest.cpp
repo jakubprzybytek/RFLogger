@@ -2,6 +2,8 @@
 #include <iostream>
 #include <vector>
 
+#include "WaterfallImage.hpp"
+
 using namespace std; 
 using namespace Magick; 
 
@@ -42,12 +44,12 @@ void testGif() {
 #define RED ColorRGB(1.0, 0.0, 0.0)
 
 void testPng() {
-	cout << "Test 2 - Png example: ImagesTest.png" << endl;
+	cout << endl << "Test 2 - Png example: ImagesTest.png" << endl;
 
 	Image image(Geometry(64, 64), Color("black"));
 	PixelPacket *pixel_cache = image.getPixels(0, 0, 64, 64); 
 
-	vector<ColorRGB> breakColors{ BLUE, GREEN, YELLOW, RED };
+	vector<ColorRGB> breakColors { BLUE, GREEN, YELLOW, RED };
 
 	unsigned int i = 0;
 	ColorRGB previousColor = breakColors.front();
@@ -69,11 +71,26 @@ void testPng() {
 	image.write( "ImagesTest.png" ); 
 }
 
+void testWaterfallImage() {
+	cout << endl << "Test 3 - WaterfallImage: WaterfallImage.png" << endl;
+	
+	Samples spectrum(512);	
+	WaterfallImage waterfall("WaterfallImage.png", spectrum.size());
+
+	for (float f = 2.0; f <= 8.0; f += 0.01) {
+		SamplesUtil::fillWithCos(spectrum, { 1.0, f } );
+		waterfall.addSpectrum(spectrum);
+	}
+	
+	waterfall.close();
+}
+
 int main() { 
 	InitializeMagick(NULL);
   
 	testGif();
 	testPng();
+	testWaterfallImage();
 
 	return 0; 
 }

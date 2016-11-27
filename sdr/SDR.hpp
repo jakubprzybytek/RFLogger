@@ -12,4 +12,6 @@ class SamplesUtil {
 public:
 	static void shrink(Samples, Samples);
 
+	static void fillWithCos(Samples&, const vector<float> &);
+	static void fillWithCos(Samples&, unsigned int, const vector<float> &);
 };

@@ -53,6 +53,8 @@ add_executable(RFLogger
 )
 
 add_executable(FFTTests
+	sdr/SDR.hpp
+	sdr/SDR.cpp
 	common/stdUtils.hpp
 	common/stdUtils.cpp
 	output/ostream.hpp
@@ -69,6 +71,12 @@ add_executable(StorageTest
 )
 
 add_executable(ImagesTest
+	sdr/SDR.hpp
+	sdr/SDR.cpp
+	output/WaterfallImage.hpp
+	output/WaterfallImage.cpp
+	output/ColorPalette.hpp
+	output/ColorPalette.cpp
 	output/ImagesTest.cpp
 )
 
