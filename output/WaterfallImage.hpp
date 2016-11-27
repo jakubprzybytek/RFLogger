@@ -27,3 +27,5 @@ public:
 	void addSpectrum(Samples samples);
 	void close();
 };
+
+WaterfallImage& operator<< (WaterfallImage&, const Samples&);

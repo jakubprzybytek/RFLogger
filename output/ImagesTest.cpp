@@ -79,7 +79,7 @@ void testWaterfallImage() {
 
 	for (float f = 2.0; f <= 8.0; f += 0.01) {
 		SamplesUtil::fillWithCos(spectrum, { 1.0, f } );
-		waterfall.addSpectrum(spectrum);
+		waterfall << spectrum;
 	}
 	
 	waterfall.close();

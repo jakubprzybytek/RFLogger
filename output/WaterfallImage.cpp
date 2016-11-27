@@ -39,7 +39,11 @@ void WaterfallImage::close() {
 		image.syncPixels();	
 	}
 
-	cout << "Saved " << buffer.size() << " lines into " << fileName << endl;
-	
 	image.write(fileName); 
+	cout << "Saved " << buffer.size() << " lines into " << fileName << endl;
+}
+
+WaterfallImage& operator<< (WaterfallImage& waterfall, const Samples& samples) {
+	waterfall.addSpectrum(samples);
+	return waterfall;
 }
