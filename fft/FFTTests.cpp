@@ -11,7 +11,7 @@
 
 using namespace std;
 
-void fillWithCos(Samples& samples, unsigned int n, const vector<float> &frequencies) {
+void fillWithCos(Samples& samples, const unsigned int n, const vector<float>& frequencies) {
 	cout << "Test sample: n='" << n << "', frequencies: " << frequencies << endl;
 	SamplesUtil::fillWithCos(samples, n, frequencies);
 }

@@ -6,6 +6,7 @@ using namespace std;
 using namespace std::chrono;
 
 #include "output/ostream.hpp"
+#include "output/WaterfallImage.hpp"
 #include "fft/FFT.hpp"
 #include "sdr/SDRDevice.hpp"
 #include "storage/Storage.hpp"
@@ -53,7 +54,10 @@ void ReadSamples (unsigned int number, double bandwidth, double sampleRate, doub
 
 	Storage storage("SDRPlus-");
 	storage.setReadSignature(sdr.getDeviceSignature(), bandwidth, sampleRate, frequency, spectrum.size());
-	
+
+	WaterfallImage::init();
+	WaterfallImage waterfall("Waterfall.png", shrunkSpectrum.size());
+
 	unsigned int i = 0;
 	while (keepReading) {
 		unsigned long long ms = NOW;
@@ -65,6 +69,7 @@ void ReadSamples (unsigned int number, double bandwidth, double sampleRate, doub
 		
 		SamplesUtil::shrink(spectrum, shrunkSpectrum);
 		storage << Timestamped(ms, shrunkSpectrum);
+		waterfall << shrunkSpectrum;
 
 		if (number > 0) {
 			if (++i >= number) {
@@ -73,5 +78,6 @@ void ReadSamples (unsigned int number, double bandwidth, double sampleRate, doub
 		}
 	}
 
+	waterfall.close();
 	sdr.closeStream();
 }

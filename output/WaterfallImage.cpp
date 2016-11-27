@@ -3,6 +3,10 @@
 
 #include "WaterfallImage.hpp"
 
+void WaterfallImage::init() {
+	InitializeMagick(NULL);
+}
+
 void WaterfallImage::addSpectrum(Samples samples) {
 	assert(samples.size() == width);
 	

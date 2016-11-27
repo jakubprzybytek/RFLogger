@@ -39,6 +39,10 @@ add_executable(RFLogger
 	common/stdUtils.cpp
 	output/ostream.hpp
 	output/ostream.cpp
+	output/WaterfallImage.hpp
+	output/WaterfallImage.cpp
+	output/ColorPalette.hpp
+	output/ColorPalette.cpp
 	storage/Storage.hpp
 	storage/Storage.cpp
 	sdr/SDR.hpp
@@ -80,6 +84,6 @@ add_executable(ImagesTest
 	output/ImagesTest.cpp
 )
 
-target_link_libraries(RFLogger SoapySDR ${Boost_LIBRARIES})
+target_link_libraries(RFLogger SoapySDR ${Boost_LIBRARIES} ${ImageMagick_LIBRARIES})
 target_link_libraries(StorageTest ${Boost_LIBRARIES})
 target_link_libraries(ImagesTest ${ImageMagick_LIBRARIES})

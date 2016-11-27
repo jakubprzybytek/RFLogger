@@ -8,7 +8,7 @@ using namespace std;
 using namespace Magick; 
 
 void testGif() {
-	cout << "Test 1 - Gif example: ImagesTest.gif" << endl;
+	cout << "Test 1 - Gif example: ImagesTest-ImagesTest.gif" << endl;
 
 	Image image(Geometry(64, 64), Color("red"));
 	image.type(PaletteType);
@@ -35,7 +35,7 @@ void testGif() {
 	}	
 	
 	image.syncPixels();
-	image.write("ImagesTest.gif"); 
+	image.write("ImagesTest-ImagesTest.gif"); 
 }
 
 #define BLUE ColorRGB(0.0, 0.0, 1.0)
@@ -44,7 +44,7 @@ void testGif() {
 #define RED ColorRGB(1.0, 0.0, 0.0)
 
 void testPng() {
-	cout << endl << "Test 2 - Png example: ImagesTest.png" << endl;
+	cout << endl << "Test 2 - Png example: ImagesTest-ImagesTest.png" << endl;
 
 	Image image(Geometry(64, 64), Color("black"));
 	PixelPacket *pixel_cache = image.getPixels(0, 0, 64, 64); 
@@ -68,14 +68,14 @@ void testPng() {
 	cout << "Wrote: " << i << " pixels" << endl;
 
 	image.syncPixels();	
-	image.write( "ImagesTest.png" ); 
+	image.write("ImagesTest-ImagesTest.png"); 
 }
 
 void testWaterfallImage() {
-	cout << endl << "Test 3 - WaterfallImage: WaterfallImage.png" << endl;
+	cout << endl << "Test 3 - WaterfallImage: ImagesTest-WaterfallImage.png" << endl;
 	
 	Samples spectrum(512);	
-	WaterfallImage waterfall("WaterfallImage.png", spectrum.size());
+	WaterfallImage waterfall("ImagesTest-WaterfallImage.png", spectrum.size());
 
 	for (float f = 2.0; f <= 8.0; f += 0.01) {
 		SamplesUtil::fillWithCos(spectrum, { 1.0, f } );

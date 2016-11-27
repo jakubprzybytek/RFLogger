@@ -22,6 +22,9 @@ private:
 	list<vector<PixelIndex>> buffer;
 	
 public:
+
+	static void init();
+
 	WaterfallImage(string fileName, unsigned int width) : fileName(fileName), width(width), palette(ColorTransitionsPalette::INSTANCE()) {}
 
 	void addSpectrum(Samples samples);

@@ -42,5 +42,4 @@ private:
 public:
 	Hertz (double v) : value(v) {}
 	friend ostream& operator << (ostream&, Hertz);
-
 };
