@@ -5,7 +5,6 @@ using namespace std;
 using namespace SoapySDR;
 
 ostream& operator<< (ostream& os, const Range& range);
-
 ostream& operator<< (ostream& os, const ArgInfo& argInfo);
 
 template <typename T>
@@ -42,4 +41,14 @@ private:
 public:
 	Hertz (double v) : value(v) {}
 	friend ostream& operator << (ostream&, Hertz);
+};
+
+class Console {
+public:
+	static const string Reset;
+
+	static const string Bold;
+
+	static const string Red;
+	static const string Green;
 };

@@ -22,14 +22,21 @@ ostream& operator << (ostream& os, const ArgInfo& argInfo) {
 }
 
 ostream& operator << (ostream& os, Hertz hertz) {
-	cout << "\033[32m";
+	cout << Console::Green;
 	if (long(hertz.value) % 100000 == 0) {
-		os << hertz.value / 1000000 <<  "\033[1mMHz";
+		os << hertz.value / 1000000 <<  Console::Bold << "MHz";
 	} else if (long(hertz.value) % 1000 == 0) {
-		os << hertz.value / 1000 << "\033[1mkHz";
+		os << hertz.value / 1000 << Console::Bold << "kHz";
 	} else {
-		os << hertz.value << "\033[1mHz";
+		os << hertz.value << Console::Bold << "Hz";
 	}
-	cout << "\033[0m";
+	cout << Console::Reset;
 	return os;
 }
+
+const string Console::Reset = "\033[0m";
+
+const string Console::Bold = "\033[1m";
+
+const string Console::Red = "\033[31m";
+const string Console::Green = "\033[32m";

@@ -1,6 +1,12 @@
+#include "../common/stdUtils.hpp"
 #include "ostream.hpp"
 
 OStreamSpectrumWriter::OStreamSpectrumWriter(ostream& stream, short consoleWidth) : stream(stream), consoleWidth(consoleWidth) {
+}
+
+void OStreamSpectrumWriter::process(const Timestamped& timestampedSamples) {
+	stream << "[" << Console::Red << timestampedSamples.ms << Console::Reset << "] ";
+	process(timestampedSamples.samples);
 }
 
 void OStreamSpectrumWriter::process(const Samples& samples) {
@@ -27,5 +33,10 @@ void OStreamSpectrumWriter::process(const Samples& samples) {
 
 OStreamSpectrumWriter& operator<< (OStreamSpectrumWriter& os, const Samples& samples) {
 	os.process(samples);
+	return os;
+}
+
+OStreamSpectrumWriter& operator<< (OStreamSpectrumWriter& os, const Timestamped& timestampedSamples) {
+	os.process(timestampedSamples);
 	return os;
 }

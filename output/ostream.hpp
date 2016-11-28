@@ -4,16 +4,19 @@
 
 class OStreamSpectrumWriter {
 
-    ostream& stream;
+private:
+	ostream& stream;
+	short consoleWidth;
 
-    short consoleWidth;
+	void process(const Samples&);
+	void process(const Timestamped&);
 
+	friend OStreamSpectrumWriter& operator<< (OStreamSpectrumWriter&, const Samples&);
+	friend OStreamSpectrumWriter& operator<< (OStreamSpectrumWriter&, const Timestamped&);
+	
 public:
-
-    OStreamSpectrumWriter(ostream& stream, short consoleWidth = 10);
-
-    void process(const Samples& samples);
-
+	OStreamSpectrumWriter(ostream& stream, short consoleWidth = 10);
 };
 
-OStreamSpectrumWriter& operator<< (OStreamSpectrumWriter& os, const Samples& samples);
+OStreamSpectrumWriter& operator<< (OStreamSpectrumWriter&, const Samples&);
+OStreamSpectrumWriter& operator<< (OStreamSpectrumWriter&, const Timestamped&);

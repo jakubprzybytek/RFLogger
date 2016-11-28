@@ -33,21 +33,6 @@ public:
 		: sdrDevice(sdrDevice), bandwidth(bandwidth), sampleRate(sampleRate), frequency(frequency), fftWindow(fftWindow) {}
 };
 
-class Timestamped {
-
-private:
-	template <class Archive>
-	void serialize(Archive&, const unsigned int);
-	friend class boost::serialization::access;
-
-public:
-	unsigned long long ms;
-	Samples samples;
-
-	Timestamped() {}
-	Timestamped(unsigned long long ms, Samples samples) : ms(ms), samples(samples) {}
-};
-
 class SamplesCollection {
 
 private:

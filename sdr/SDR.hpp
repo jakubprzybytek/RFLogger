@@ -7,6 +7,16 @@ using namespace std;
 typedef complex<float> Sample;
 typedef vector<Sample> Samples;
 
+class Timestamped {
+
+public:
+	unsigned long long ms;
+	Samples samples;
+
+	Timestamped() {}
+	Timestamped(unsigned long long ms, Samples samples) : ms(ms), samples(samples) {}
+};
+
 class SamplesUtil {
 
 public:

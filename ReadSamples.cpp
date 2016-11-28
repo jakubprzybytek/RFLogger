@@ -65,7 +65,7 @@ void ReadSamples (unsigned int number, double bandwidth, double sampleRate, doub
 		sdr.readStream(samples);
 		fft.transform(samples, spectrum);
 
-		output << spectrum;
+		output << Timestamped(ms, spectrum);
 		
 		SamplesUtil::shrink(spectrum, shrunkSpectrum);
 		storage << Timestamped(ms, shrunkSpectrum);
