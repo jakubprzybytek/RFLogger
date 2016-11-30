@@ -35,6 +35,8 @@ if (CMAKE_COMPILER_IS_GNUCXX)
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
 add_executable(RFLogger
+	common/Timestamp.hpp
+	common/Timestamp.cpp
 	common/stdUtils.hpp
 	common/stdUtils.cpp
 	output/ostream.hpp

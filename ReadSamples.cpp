@@ -1,17 +1,21 @@
 #include <csignal>
 #include <iostream>
 #include <chrono>
+#include <ctime>
+
+#include <sys/time.h>
 
 using namespace std;
 using namespace std::chrono;
 
+#include "common/Timestamp.hpp"
 #include "output/ostream.hpp"
 #include "output/WaterfallImage.hpp"
 #include "fft/FFT.hpp"
 #include "sdr/SDRDevice.hpp"
 #include "storage/Storage.hpp"
 
-#define NOW duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count()
+#define NOW2 duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count()
 
 static bool keepReading = true;
 
@@ -60,11 +64,14 @@ void ReadSamples (unsigned int number, double bandwidth, double sampleRate, doub
 
 	unsigned int i = 0;
 	while (keepReading) {
-		unsigned long long ms = NOW;
+		unsigned long long ms = NOW2;
 
 		sdr.readStream(samples);
 		fft.transform(samples, spectrum);
-
+		
+		Timestamp ts = Timestamp::NOW();
+		cout << ts.formatTime() << endl;
+		
 		output << Timestamped(ms, spectrum);
 		
 		SamplesUtil::shrink(spectrum, shrunkSpectrum);
