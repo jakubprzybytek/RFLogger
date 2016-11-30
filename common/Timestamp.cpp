@@ -11,11 +11,15 @@ Timestamp Timestamp::NOW() {
 	return Timestamp(tv);
 }
 
-string Timestamp::formatTime() {
+string Timestamp::formatTime() const {
 	string result;
 
 	int millisec = tv.tv_usec / 1000;
 	strftime(mbstr, sizeof(mbstr), "%T", localtime(&tv.tv_sec));
 
 	return string(mbstr) + "." + to_string(millisec);
+}
+
+long int Timestamp::secs() const {
+	return tv.tv_sec;
 }

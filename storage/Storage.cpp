@@ -2,10 +2,15 @@
 
 namespace boost {
 	namespace serialization {
-	
+
 		template <class Archive>
 		void serialize (Archive & ar, Timestamped& t, __attribute__((unused))  const unsigned int version) {
-			ar & t.ms & t.samples;
+			ar & t.ts & t.samples;
+		}
+
+		template <class Archive>
+		void serialize (Archive & ar, Timestamp& t, __attribute__((unused))  const unsigned int version) {
+			ar & t.tv.tv_sec & t.tv.tv_usec;
 		}
 	}
 }
@@ -36,9 +41,9 @@ void Storage::archive() {
 
 	SamplesCollection samplesCollection(readSignature, waitingQueue);
 
-	unsigned long long ms = waitingQueue.front().ms;
+	long int secs = waitingQueue.front().ts.secs();
 
-	ofstream ofs(fileNamePrefix + to_string(ms) + ".bin");
+	ofstream ofs(fileNamePrefix + to_string(secs) + ".bin");
 	binary_oarchive archive(ofs);
 	archive << samplesCollection;
 

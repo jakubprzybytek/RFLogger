@@ -1,3 +1,5 @@
+#pragma once
+
 #include <sys/time.h>
 
 using namespace std;
@@ -5,12 +7,15 @@ using namespace std;
 class Timestamp {
 
 private:
-	struct timeval tv;
 
 public:
+	struct timeval tv;
+
 	static Timestamp NOW();
 
+	Timestamp() {}
 	Timestamp(timeval tv) : tv(tv) {}
 
-	string formatTime();
+	string formatTime() const;
+	long int secs() const;
 };

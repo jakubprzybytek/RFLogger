@@ -61,6 +61,8 @@ add_executable(RFLogger
 add_executable(FFTTests
 	sdr/SDR.hpp
 	sdr/SDR.cpp
+	common/Timestamp.hpp
+	common/Timestamp.cpp
 	common/stdUtils.hpp
 	common/stdUtils.cpp
 	output/ostream.hpp
@@ -71,6 +73,8 @@ add_executable(FFTTests
 )
 
 add_executable(StorageTest
+	common/Timestamp.hpp
+	common/Timestamp.cpp
 	storage/Storage.hpp
 	storage/Storage.cpp
 	storage/StorageTest.cpp

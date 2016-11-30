@@ -3,6 +3,8 @@
 #include <complex>
 #include <vector>
 
+#include "common/Timestamp.hpp"
+
 using namespace std;
 
 typedef complex<float> Sample;
@@ -11,11 +13,11 @@ typedef vector<Sample> Samples;
 class Timestamped {
 
 public:
-	unsigned long long ms;
+	Timestamp ts;
 	Samples samples;
 
 	Timestamped() {}
-	Timestamped(unsigned long long ms, Samples samples) : ms(ms), samples(samples) {}
+	Timestamped(Timestamp ts, Samples samples) : ts(ts), samples(samples) {}
 };
 
 class SamplesUtil {

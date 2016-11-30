@@ -40,3 +40,8 @@ const string Console::Bold = "\033[1m";
 
 const string Console::Red = "\033[31m";
 const string Console::Green = "\033[32m";
+const string Console::Yellow = "\033[33m";
+const string Console::Blue = "\033[34m";
+const string Console::Magenta = "\033[35m";
+const string Console::Cyan = "\033[36m";
+const string Console::White = "\033[37m";

@@ -51,4 +51,9 @@ public:
 
 	static const string Red;
 	static const string Green;
+	static const string Yellow;
+	static const string Blue;
+	static const string Magenta;
+	static const string Cyan;
+	static const string White;
 };

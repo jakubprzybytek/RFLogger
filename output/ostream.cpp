@@ -5,7 +5,7 @@ OStreamSpectrumWriter::OStreamSpectrumWriter(ostream& stream, short consoleWidth
 }
 
 void OStreamSpectrumWriter::process(const Timestamped& timestampedSamples) {
-	stream << "[" << Console::Red << timestampedSamples.ms << Console::Reset << "] ";
+	stream << "[" << Console::Yellow << timestampedSamples.ts.formatTime() << Console::Reset << "] ";
 	process(timestampedSamples.samples);
 }
 
