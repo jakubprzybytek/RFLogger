@@ -1,6 +1,6 @@
 # RFLogger
 
-Lighweight tool for basic long lasting RF logging. Uses [SoapySDR](https://github.com/pothosware/SoapySDR/wiki) API to talk with SDR device.
+Lightweight tool for basic long lasting RF logging. Uses [SoapySDR](https://github.com/pothosware/SoapySDR/wiki) API to talk with SDR device.
 
 ```
 Usage RFLogger [options]

@@ -34,62 +34,59 @@ if (CMAKE_COMPILER_IS_GNUCXX)
 
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
-add_executable(RFLogger
+add_library(SDR
+	sdr/SDR.hpp
+	sdr/SDR.cpp
+	sdr/SDRDevice.hpp
+	sdr/SDRDevice.cpp
+)
+
+add_library(Common
 	common/Timestamp.hpp
 	common/Timestamp.cpp
 	common/stdUtils.hpp
 	common/stdUtils.cpp
+)
+
+add_library(FFT
+	fft/FFT.hpp
+	fft/FFT.cpp
+	fft/kissfft.hh
+)
+
+add_library(Output
 	output/ostream.hpp
 	output/ostream.cpp
 	output/WaterfallImage.hpp
 	output/WaterfallImage.cpp
 	output/ColorPalette.hpp
 	output/ColorPalette.cpp
+)
+
+add_library(Storage
 	storage/Storage.hpp
 	storage/Storage.cpp
-	sdr/SDR.hpp
-	sdr/SDR.cpp
-	sdr/SDRDevice.hpp
-	sdr/SDRDevice.cpp
-	fft/FFT.hpp
-	fft/kissfft.hh
+)
+
+add_executable(RFLogger
 	RFLogger.hpp
 	RFLogger.cpp
 	ReadSamples.cpp
 )
 
-add_executable(FFTTests
-	sdr/SDR.hpp
-	sdr/SDR.cpp
-	common/Timestamp.hpp
-	common/Timestamp.cpp
-	common/stdUtils.hpp
-	common/stdUtils.cpp
-	output/ostream.hpp
-	output/ostream.cpp
-	fft/FFTTests.cpp
-	fft/FFT.hpp
-	fft/kissfft.hh
+add_executable(FFTTest
+	fft/FFTTest.cpp
 )
 
 add_executable(StorageTest
-	common/Timestamp.hpp
-	common/Timestamp.cpp
-	storage/Storage.hpp
-	storage/Storage.cpp
 	storage/StorageTest.cpp
 )
 
 add_executable(ImagesTest
-	sdr/SDR.hpp
-	sdr/SDR.cpp
-	output/WaterfallImage.hpp
-	output/WaterfallImage.cpp
-	output/ColorPalette.hpp
-	output/ColorPalette.cpp
 	output/ImagesTest.cpp
 )
 
-target_link_libraries(RFLogger SoapySDR ${Boost_LIBRARIES} ${ImageMagick_LIBRARIES})
-target_link_libraries(StorageTest ${Boost_LIBRARIES})
-target_link_libraries(ImagesTest ${ImageMagick_LIBRARIES})
+target_link_libraries(RFLogger Storage FFT Output SDR Common SoapySDR ${Boost_LIBRARIES} ${ImageMagick_LIBRARIES})
+target_link_libraries(FFTTest FFT Output SDR Common)
+target_link_libraries(StorageTest Storage Common ${Boost_LIBRARIES})
+target_link_libraries(ImagesTest Output SDR ${ImageMagick_LIBRARIES})
