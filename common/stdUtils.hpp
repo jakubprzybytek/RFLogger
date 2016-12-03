@@ -1,7 +1,9 @@
 #include <iostream>
+#include <chrono>
 #include <SoapySDR/Types.hpp>
 
 using namespace std;
+using namespace std::chrono;
 using namespace SoapySDR;
 
 ostream& operator<< (ostream& os, const Range& range);
@@ -33,6 +35,8 @@ ostream& operator<< (ostream& os, const map<T, S>& myMap) {
 	return os;
 }
 
+ostream& operator << (ostream& os, const milliseconds& interval);
+
 class Hertz {
 
 private:
@@ -40,7 +44,7 @@ private:
 
 public:
 	Hertz (double v) : value(v) {}
-	friend ostream& operator << (ostream&, Hertz);
+	friend ostream& operator << (ostream&, const Hertz&);
 };
 
 class Console {

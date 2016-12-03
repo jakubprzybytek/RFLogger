@@ -4,6 +4,7 @@
 using namespace std;
 
 #include "common/Timestamp.hpp"
+#include "common/Timer.hpp"
 #include "output/ostream.hpp"
 #include "output/WaterfallImage.hpp"
 #include "fft/FFT.hpp"
@@ -55,6 +56,9 @@ void ReadSamples (unsigned int number, double bandwidth, double sampleRate, doub
 	WaterfallImage::init();
 	WaterfallImage waterfall("Waterfall.png", shrunkSpectrum.size());
 
+	Timer timer(seconds(2));
+	timer.start();
+	
 	unsigned int i = 0;
 	while (keepReading) {
 		Timestamp ts = Timestamp::NOW();
@@ -75,6 +79,8 @@ void ReadSamples (unsigned int number, double bandwidth, double sampleRate, doub
 		}
 	}
 
+	timer.stop();
+	
 	waterfall.close();
 	sdr.closeStream();
 }

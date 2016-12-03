@@ -21,7 +21,7 @@ ostream& operator << (ostream& os, const ArgInfo& argInfo) {
 	return os;
 }
 
-ostream& operator << (ostream& os, Hertz hertz) {
+ostream& operator << (ostream& os, const Hertz& hertz) {
 	cout << Console::Green;
 	if (long(hertz.value) % 100000 == 0) {
 		os << hertz.value / 1000000 <<  Console::Bold << "MHz";
@@ -31,6 +31,11 @@ ostream& operator << (ostream& os, Hertz hertz) {
 		os << hertz.value << Console::Bold << "Hz";
 	}
 	cout << Console::Reset;
+	return os;
+}
+
+ostream& operator << (ostream& os, const milliseconds& interval) {
+	cout << Console::Green << interval.count() << "ms" << Console::Reset;
 	return os;
 }
 

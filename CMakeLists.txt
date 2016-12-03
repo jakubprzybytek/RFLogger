@@ -2,7 +2,7 @@
 # Build RFLogger
 ########################################################################
 cmake_minimum_required(VERSION 2.8.7)
-project(RFLogger CXX)
+project(RFLogger C CXX)
 
 find_package(SoapySDR "0.4.0" NO_MODULE REQUIRED)
 if (NOT SoapySDR_FOUND)
@@ -13,6 +13,8 @@ find_package(Boost "1.55" COMPONENTS serialization REQUIRED)
 
 find_package(ImageMagick COMPONENTS Magick++ REQUIRED)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DMAGICKCORE_HDRI_ENABLE=0 -DMAGICKCORE_QUANTUM_DEPTH=16")
+
+find_package (Threads REQUIRED)
 
 include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}
@@ -42,10 +44,12 @@ add_library(SDR
 )
 
 add_library(Common
-	common/Timestamp.hpp
-	common/Timestamp.cpp
 	common/stdUtils.hpp
 	common/stdUtils.cpp
+	common/Timestamp.hpp
+	common/Timestamp.cpp
+	common/Timer.hpp
+	common/Timer.cpp
 )
 
 add_library(FFT
@@ -86,7 +90,7 @@ add_executable(ImagesTest
 	output/ImagesTest.cpp
 )
 
-target_link_libraries(RFLogger Storage FFT Output SDR Common SoapySDR ${Boost_LIBRARIES} ${ImageMagick_LIBRARIES})
+target_link_libraries(RFLogger Storage FFT Output SDR Common SoapySDR ${Boost_LIBRARIES} ${ImageMagick_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
 target_link_libraries(FFTTest FFT Output SDR Common)
 target_link_libraries(StorageTest Storage Common ${Boost_LIBRARIES})
 target_link_libraries(ImagesTest Output SDR ${ImageMagick_LIBRARIES})
