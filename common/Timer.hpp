@@ -6,22 +6,32 @@
 using namespace std;
 using namespace std::chrono;
 
+class Locker {
+
+private:
+	mutex mtx;
+	condition_variable conditionVariable;
+
+public:
+	void wait();
+	void notify();
+};
+
 class Timer {
 
 private:
+	steady_clock::time_point future;
 	milliseconds interval;
+
 	bool running = false;
 
 	thread myThread;
-
-	mutex& feedbackMutex; 
-	condition_variable& feedback; 
+	Locker& locker; 
 
 	void theLoop();
-	
+
 public:
-	Timer(const milliseconds interval, mutex& feedbackMutex, condition_variable& feedback)
-		: interval(interval), feedbackMutex(feedbackMutex), feedback(feedback) {}
+	Timer(const milliseconds interval, Locker& locker) : interval(interval), locker(locker) {}
 
 	void start();
 	void stop();

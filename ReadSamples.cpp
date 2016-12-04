@@ -1,7 +1,5 @@
 #include <csignal>
 #include <iostream>
-#include <mutex>
-#include <condition_variable>
 
 using namespace std;
 
@@ -58,26 +56,23 @@ void ReadSamples (unsigned int number, double bandwidth, double sampleRate, doub
 	WaterfallImage::init();
 	WaterfallImage waterfall("Waterfall.png", shrunkSpectrum.size());
 
-	mutex feedbackMutex;
-	condition_variable feedback;
+	Locker locker;
 	
-	Timer timer(seconds(5), feedbackMutex, feedback);
+	Timer timer(seconds(1), locker);
 	timer.start();
-	
-	{
-		unique_lock<mutex> lock(feedbackMutex);
-		feedback.wait(lock);
-	}
 	
 	unsigned int i = 0;
 	while (keepReading) {
+
+		locker.wait();
+
 		Timestamp ts = Timestamp::NOW();
 
 		sdr.readStream(samples);
 		fft.transform(samples, spectrum);
-		
+
 		output << Timestamped(ts, spectrum);
-		
+
 		SamplesUtil::shrink(spectrum, shrunkSpectrum);
 		storage << Timestamped(ts, shrunkSpectrum);
 		waterfall << shrunkSpectrum;
