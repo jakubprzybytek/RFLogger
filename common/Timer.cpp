@@ -20,6 +20,11 @@ void Timer::stop() {
 void Timer::theLoop() {
 	while (running == true) {
 		this_thread::sleep_for(interval);
-		cout << "Bing!" << endl;
+		
+		{
+			unique_lock<mutex> lock(feedbackMutex);
+			feedback.notify_one();
+			cout << "Bing!" << endl;
+		}
 	}
 }

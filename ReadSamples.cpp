@@ -1,5 +1,7 @@
 #include <csignal>
 #include <iostream>
+#include <mutex>
+#include <condition_variable>
 
 using namespace std;
 
@@ -56,8 +58,16 @@ void ReadSamples (unsigned int number, double bandwidth, double sampleRate, doub
 	WaterfallImage::init();
 	WaterfallImage waterfall("Waterfall.png", shrunkSpectrum.size());
 
-	Timer timer(seconds(2));
+	mutex feedbackMutex;
+	condition_variable feedback;
+	
+	Timer timer(seconds(5), feedbackMutex, feedback);
 	timer.start();
+	
+	{
+		unique_lock<mutex> lock(feedbackMutex);
+		feedback.wait(lock);
+	}
 	
 	unsigned int i = 0;
 	while (keepReading) {
