@@ -6,6 +6,8 @@ using namespace std;
 using namespace std::chrono;
 using namespace SoapySDR;
 
+milliseconds sToDuration(const string& input);
+
 ostream& operator<< (ostream& os, const Range& range);
 ostream& operator<< (ostream& os, const ArgInfo& argInfo);
 
@@ -35,7 +37,7 @@ ostream& operator<< (ostream& os, const map<T, S>& myMap) {
 	return os;
 }
 
-ostream& operator << (ostream& os, const milliseconds& interval);
+ostream& operator << (ostream& os, const milliseconds&);
 
 class Hertz {
 

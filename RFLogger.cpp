@@ -29,6 +29,7 @@ int main (int argc, char **argv) {
 	double frequency = 100.5e6;
 	static int printDeviceInfo = 0;
 	unsigned short consoleWidth = 200;
+	milliseconds interval(1000);
 
 	static struct option longOptions[] = {
 		{ "list-devices", no_argument, 0, 'l' },
@@ -44,7 +45,7 @@ int main (int argc, char **argv) {
 
 	int opt;
 	int optionIndex = 0;
-	while ((opt = getopt_long(argc, argv, "lin:b:s:f:c:h", longOptions, &optionIndex)) != -1) {
+	while ((opt = getopt_long(argc, argv, "lin:b:s:f:c:ht:", longOptions, &optionIndex)) != -1) {
 		switch (opt) {
 			case 'l':
 			SDRDevice::listAvailableSDRDevices();
@@ -74,12 +75,16 @@ int main (int argc, char **argv) {
 			consoleWidth = stoi(optarg);
 			break;
 
+			case 't':
+			interval = sToDuration(optarg);
+			break;
+
 			case 'h':
 			printHelp();
 			exit(0);
 		}
 	}
-
+cout << "Internal: " << interval << endl;
 	OStreamSpectrumWriter console(cout, consoleWidth);
-	ReadSamples(number, bandwidth, sampleRate, frequency, printDeviceInfo, console);
+	ReadSamples(number, bandwidth, sampleRate, frequency, interval, printDeviceInfo, console);
 }

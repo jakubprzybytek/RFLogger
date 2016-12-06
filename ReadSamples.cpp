@@ -17,7 +17,7 @@ static void interrupt(__attribute__((unused)) int signum) {
 	keepReading = false;
 }
 
-void ReadSamples (unsigned int number, double bandwidth, double sampleRate, double frequency, bool printDeviceInfo, OStreamSpectrumWriter& output) {
+void ReadSamples (unsigned int number, double bandwidth, double sampleRate, double frequency, milliseconds& interval, bool printDeviceInfo, OStreamSpectrumWriter& output) {
 
 	signal(SIGINT, interrupt);
 
@@ -58,7 +58,7 @@ void ReadSamples (unsigned int number, double bandwidth, double sampleRate, doub
 
 	Locker locker;
 	
-	Timer timer(seconds(1), locker);
+	Timer timer(interval, locker);
 	timer.start();
 	
 	unsigned int i = 0;

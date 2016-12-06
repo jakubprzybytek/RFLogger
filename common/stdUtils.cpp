@@ -1,5 +1,18 @@
 #include "stdUtils.hpp"
 
+milliseconds sToDuration(const string& input) {
+	string::size_type sz;
+	int number = stoi (input, &sz);
+	string unitString = input.substr(sz);
+	if ("ms" == unitString) {
+		return milliseconds(number);
+	} else if ("m" == unitString) {
+		return minutes(number);
+	} else {
+		return seconds(number);
+	}
+}
+
 ostream& operator << (ostream& os, const Range& range) {
 	os << "(" << range.minimum() << ";" << range.maximum() << ")";
 	return os;
