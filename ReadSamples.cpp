@@ -64,8 +64,6 @@ void ReadSamples (unsigned int number, double bandwidth, double sampleRate, doub
 	unsigned int i = 0;
 	while (keepReading) {
 
-		locker.wait();
-
 		Timestamp ts = Timestamp::NOW();
 
 		sdr.readStream(samples);
@@ -80,8 +78,11 @@ void ReadSamples (unsigned int number, double bandwidth, double sampleRate, doub
 		if (number > 0) {
 			if (++i >= number) {
 				keepReading = false;
+				break;
 			}
 		}
+
+		locker.wait();
 	}
 
 	timer.stop();
